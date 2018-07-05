@@ -1,0 +1,79 @@
+<html charset="UTF-8">
+    <meta charset="UTF-8" />
+        
+    <head>
+        <script src="libs/three.js"></script>
+        <script src="libs/OrbitControls.js"></script>
+        <script src="libs/keyboard.js"></script>
+        <script src="libs/physi.js"></script>
+    
+        <link rel="stylesheet" href="css/Style.css">
+    </head>
+    
+    <body style="margin: 0">
+        <script type="text/x-glsl" id="vertexShader">
+            varying vec2 vUv;
+              
+            void main()
+            {
+                vUv = uv;
+
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+            }
+        </script>
+        <script type="text/x-glsl" id="fragmentShader">
+            varying vec2 vUv;
+            uniform float time;
+
+            void main()
+            {
+                vec2 st = vUv;
+                vec3 color = vec3(0.0);
+
+                st.x = st.x * 4.0 * sin(time/10.0);
+                st.y = st.y * sin(time/30.0);
+
+                st.x = fract(st.x);
+                st.y = fract(st.y);
+
+                color = vec3(st, 10.0);
+
+                gl_FragColor = vec4(color, 1.0);
+            }
+        </script>
+
+        <script src="js/final.js"></script>
+    
+    
+        <title> Dojo Showdown </title>
+
+        <div id="transbox">
+            <div> Welcome to <strong>Dojo Showdown</strong>! </div>
+            <div> Challenge the robots to a sparring match! Punches beat Kicks, Kicks beat Blocks, and Blocks beat Punches! 
+                Consecutive victories increase your score! If you lose, your score goes back to zero! Don't give up and try your best!
+            </br></br> </div>
+            <div> Controls: </div>
+            <div> Click around to change the camera angle </div>
+            <div> 1-<span id="final">4</span>: Select Opponent </div>
+            <div> A: Punch </div>
+            <div> W: Kick </div>
+            <div> D: Block </div>
+            <div> R: Reset </div>
+            <div> M: Toggle Music </br></br></div>
+            <div> Game by: Neil Tobin Napase </div>
+        </div>
+
+        <div id="scorebox">
+            <div> Score:  <span class="red" id="score">0</span></div>
+            <div> High Score: <span class="red" id="highscore">0</span></div>
+        </div>
+
+        <div id="movebox">
+            <div><span class="center" id="opponent"> Select an Opponent </span></br></br></div>
+            <div> Player: <span class="moves" id="playermove"> </span></div>
+            <div> Opponent: <span class="moves" id="opponentmove"> </span> </br></br></div>
+            <div> <span id="result"> Put up a good fight! </span> </div>
+        </div>
+    </body>
+    
+    </html>
